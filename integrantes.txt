@@ -2,4 +2,3 @@ integrantes:
 1. Cesar Delgado
 2. Andre Galdos
 3. Bryan Noel
-4. Giavianno Bacini
