@@ -38,7 +38,7 @@ def main():
     #puntaje en el gameDisplay
     def obs_esquivados(count):
         font = pygame.font.SysFont(None, 25)
-        text = font.render("Esquivado: " +str(count), True, negro)
+        text = font.render("Esquivado: " +str(count) + " , presione P para pausar el juego.", True, negro)
         gameDisplay.blit(text, (0,0))    
 
     def obstaculo(obsX, obsY, obsAn, obsAl, color):
@@ -90,7 +90,7 @@ def main():
         
     #funcion de boton
     #Se pasa el mensaje, valores X e Y, ancho, altura,
-    #sus colores en estado activo e inactivo y tipo de accion del boton
+    #sus colores en estado activo e inactivo y tipo de accion del boton(debe ser funcion)
     def boton(mensaje,x,y,an,al,cAct,cInact, accion=None):
         #devuelve posicion del mouse en una tupla de 2 valores:
         #(valorX, valorY)
@@ -122,11 +122,9 @@ def main():
         global pausa
         pausa = False
     
-    #JUEGO - INTERFACES
+    #JUEGO - INTERFACES   
 
-    #menu de inicio
-
-
+    #menu de pausa
     def pausado():
         
         global pausa
@@ -148,7 +146,9 @@ def main():
             #actualizar pantalla
             pygame.display.update()
             clock.tick(15)
-        
+
+    
+    #pantalla de inicio
     def game_intro():
 
         intro = True
@@ -171,7 +171,7 @@ def main():
             pygame.display.update()
             clock.tick(15)
 
-
+    #pantalla de juego inicial
     def game_bucle():
 
         global pausa 
@@ -180,15 +180,20 @@ def main():
         y = (display_altura * 0.8)
         #indica por cuantas coordinadas se mueve en el eje X
         x_cambio = 0
+        y_cambio = 0
 
+        pygame.key.set_repeat(10,10)
+        
         #coordinadas de obstaculos
         obs_startX= random.randrange(0,display_ancho)
         obs_startY= -500
-        #modificar la velocidad para aumentar la dificultad
-        obs_speed= 3
+        #modificar la velocidad de obstaculos para aumentar la dificultad
+        obs_speed= 10
         obs_ancho= 100
         obs_altura = 100
 
+        #el usuario no podra pausar mientras que este en movimiento
+        estado_mov = False
         #puntaje
         esquivado = 0
         
@@ -205,18 +210,32 @@ def main():
                 #keydown = tecla presionada
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_LEFT:
-                        x_cambio = -5
+                        x_cambio = -10
+                        estado_mov = True
                     if event.key == pygame.K_RIGHT:
-                        x_cambio = 5
+                        x_cambio = 10
+                        estado_mov = True
+                    if event.key == pygame.K_UP:
+                        y_cambio = -10
+                        estado_mov = True
+                    if event.key == pygame.K_DOWN:
+                        y_cambio = 10
+                        estado_mov = True
                     if event.key == pygame.K_p:
-                        pausa = True
-                        pausado()
+                        if estado_mov == False:
+                            pausa = True
+                            pausado()
+                        
                 #keyup = se deja de presionar tecla
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                         x_cambio = 0
-                
+                        estado_mov = False
+                    if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
+                        y_cambio = 0
+                        estado_mov = False
             x += x_cambio
+            y += y_cambio
             gameDisplay.fill(blanco)
             #actualizar las coordinadas del carro y del obstaculo
             obstaculo(obs_startX, obs_startY, obs_ancho, obs_altura, azul)
@@ -225,22 +244,25 @@ def main():
             car(x,y)
             obs_esquivados(esquivado)
 
-            #el carro se choca con los bordes
-            if x > display_ancho - car_ancho or x < 0:
+            #verifica si el carro se choca con los bordes
+            if x > display_ancho - car_ancho or x < 0: 
                 crash()
-                
+            if y > display_altura - car_altura:
+                y=display_altura - car_altura
+            elif y < 0:
+                y=0
             #simula obstaculos infinitos al regresarlo al comienzo si desaperece
             #de la pantalla, y se agrega un punto al puntaje
             if obs_startY > display_altura:
                 obs_startY = 0 - obs_altura
-                obs_startX = random.randrange(0, display_ancho)
+                obs_startX = random.randrange(0 + obs_ancho, display_ancho-obs_ancho)
                 esquivado = esquivado + 1
-                obs_speed = obs_speed +0.5
+                obs_speed = obs_speed + 0.3
                 
             #logica de crash:
             #Y de carro es menor que la altura del obstaculo MAS la coordenada
             #del obstaculo, en otras palabras, obstaculo esta dentro del carro
-            if y < obs_startY + obs_altura:
+            if y < obs_startY + obs_altura and y + car_altura > obs_startY:
                 #Eye X del carro debe rozar con una de las esquinas de X
                 #o debe chocar con el borde de inferior del obstaculo
                 #SI esquina izquierda del carro es mayor que la esquina izquierda del obstaculo
