@@ -6,7 +6,11 @@ def main():
     pygame.init()
 
     #VARIABLES
-    display_ancho = 800
+    #
+    #
+    #
+    
+    display_ancho = 900
     display_altura = 600
     
     # mezcla de colores : (rojo, verde, azul)
@@ -19,10 +23,9 @@ def main():
     rojo_oscuro=(200,0,0)
     verde_oscuro=(0,200,0)
 
-    pausa = False
 
     #la ventana de juego
-    gameDisplay = pygame.display.set_mode((800,600))    
+    gameDisplay = pygame.display.set_mode((display_ancho,display_altura))    
     pygame.display.set_caption("Orion: The Game")
     #reloj del juego, usado para fps
     clock = pygame.time.Clock()
@@ -34,11 +37,14 @@ def main():
     carImg = pygame.transform.scale(carImg, (car_ancho, car_altura))
 
     #FUNCIONES
+    #
+    #
+    #
     
     #puntaje en el gameDisplay
     def obs_esquivados(count):
         font = pygame.font.SysFont(None, 25)
-        text = font.render("Esquivado: " +str(count) + " , presione P para pausar el juego.", True, negro)
+        text = font.render("Puntaje: " +str(count) + ", presione P para pausar el juego y presione M para pausar/continuar la música", True, negro)
         gameDisplay.blit(text, (0,0))    
 
     def obstaculo(obsX, obsY, obsAn, obsAl, color):
@@ -50,7 +56,7 @@ def main():
         gameDisplay.blit(carImg,(x,y))
 
     #algoritmo de choque
-    def crash():
+    def crash(puntaje):
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -60,11 +66,16 @@ def main():
             gameDisplay.fill(blanco)
             textoFuente = pygame.font.Font("freesansbold.ttf", 50)
             textSuperficie, textRect = objetos_texto("Te chocaste!", textoFuente)
-            textRect.center = ((display_ancho/2), (display_altura/2))
+            textRect.center = ((display_ancho/2), (0.3*display_altura))
             gameDisplay.blit(textSuperficie, textRect)
-       
-            boton("Nueva Partida",150,400,200,50,verde,verde_oscuro, game_bucle)
-            boton("Salir",450,400,200,50, rojo, rojo_oscuro, quit_juego)        
+
+            textoFuente = pygame.font.Font("freesansbold.ttf", 50)
+            textSuperficie, textRect = objetos_texto("Tu puntaje: " + str(puntaje), textoFuente)
+            textRect.center = ((display_ancho/2), (0.5*display_altura))
+            gameDisplay.blit(textSuperficie, textRect)
+            
+            boton("Nueva Partida",0.1875*display_ancho,0.6*display_altura,0.1875*display_ancho,65,verde,verde_oscuro, game_bucle)
+            boton("Salir",0.625*display_ancho,0.6*display_altura,0.1875*display_ancho,65, rojo, rojo_oscuro, quit_juego)        
 
             #actualizar pantalla
             pygame.display.update()
@@ -79,7 +90,7 @@ def main():
 
         pygame.display.update()
         #muestra el mensaje y pausea el juego por 2 segundos
-        time.sleep(2)
+        #time.sleep(2)
         #despues se reinicia el juego
         game_bucle()
 
@@ -121,8 +132,29 @@ def main():
     def continuar():
         global pausa
         pausa = False
+
+    #dj de canciones
+
+    def tocarMusica(ubicacionSound, veces):
+        pygame.mixer.init()
+        pygame.mixer.music.set_volume(1)
+        pygame.mixer.music.load(ubicacionSound)
+        pygame.mixer.music.play(veces)
+
+    def pararMusica():
+        pygame.mixer.music.stop()
+
+    def pausarMusica():
+        pygame.mixer.music.pause()
+
+    def resumirMusica():
+        pygame.mixer.music.unpause()
+
     
-    #JUEGO - INTERFACES   
+    #JUEGO - INTERFACES
+    #
+    #
+    #
 
     #menu de pausa
     def pausado():
@@ -134,14 +166,14 @@ def main():
                     quit_juego()
 
             #se puede omitir la funcion fill para ver el estado del juego pausado   
-            #gameDisplay.fill(blanco)
+            gameDisplay.fill(blanco)
             textoFuente = pygame.font.Font("freesansbold.ttf", 50)
             textSuperficie, textRect = objetos_texto("Juego Pausado", textoFuente)
             textRect.center = ((display_ancho/2), (display_altura/2))
             gameDisplay.blit(textSuperficie, textRect)
        
-            boton("Continuar",150,400,100,50,verde,verde_oscuro, continuar)
-            boton("Salir",550,400,100,50, rojo, rojo_oscuro, quit_juego)        
+            boton("Continuar",0.1875*display_ancho,0.6*display_altura,0.1875*display_ancho,65,verde,verde_oscuro, continuar)
+            boton("Salir",0.625*display_ancho,0.6*display_altura,0.1875*display_ancho,65, rojo, rojo_oscuro, quit_juego)        
 
             #actualizar pantalla
             pygame.display.update()
@@ -149,23 +181,58 @@ def main():
 
     
     #pantalla de inicio
+    
     def game_intro():
-
+        
+        nombreUser = ""
+        userExiste = False
+        
         intro = True
-
         while intro == True:
             for event in pygame.event.get():
+                #agarra el input del usuario y  lo concatena
+                if event.type == pygame.KEYDOWN:
+                    if event.unicode.isalpha():
+                        nombreUser += event.unicode
                 if event.type == pygame.QUIT:
-                    quit_juego()
-                    
-            gameDisplay.fill(blanco)
+                        quit_juego()
+
+            #gameDisplay.fill(blanco)
+
+            #fondo de pantalla, ajustar tamaño con transform.scale
+            fondo = pygame.image.load("images/fondo.jpg")
+            fondo = pygame.transform.scale(fondo, (display_ancho, display_altura))
+            gameDisplay.blit(fondo, (0,0))
+            orion = pygame.image.load("images/orion.jpg")
+            orion = pygame.transform.scale(orion, (int(display_ancho/4), int(display_altura/4)))
+            gameDisplay.blit(orion, (0.375*display_ancho,0.2*display_altura))
+            config = pygame.image.load("images/config.png")
+            config = pygame.transform.scale(config, (int(display_ancho/15), int(display_ancho/15)))
+            gameDisplay.blit(config, (0.009*display_ancho,0.9*display_altura))
+
+            
             textoFuente = pygame.font.Font("freesansbold.ttf", 50)
             textSuperficie, textRect = objetos_texto("Orion: The Game", textoFuente)
             textRect.center = ((display_ancho/2), (display_altura/2))
             gameDisplay.blit(textSuperficie, textRect)
-       
-            boton("Iniciar",150,400,100,50,verde,verde_oscuro, game_bucle)
-            boton("Salir",550,400,100,50, rojo, rojo_oscuro, quit_juego)        
+
+            #print(nombreUser)
+            
+            #Logica para ingresar usuario:
+            #Va a existir un boton que indique que "ingrese su usuario"
+            #Cuando el usuario presione el boton izquierdo del mouse se crea un boton que se va a llenar con el nombre de usuario
+            #Para que el usuario no tenga que dejar presionado el mouse, creamos una variable para ver si ya presiono
+            #anteriormente el mouse
+            boton("Ingresar jugador",0.4*display_ancho,0.55*display_altura,0.2*display_ancho,25,blanco,blanco, None)
+            if userExiste == True:
+                boton(nombreUser,0.4*display_ancho,0.6*display_altura,0.2*display_ancho,25,blanco,blanco, None)
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    boton(nombreUser,0.4*display_ancho,0.6*display_altura,0.2*display_ancho,25,blanco,blanco, None)
+                    userExiste = True
+            
+            boton("Iniciar",0.4*display_ancho,0.65*display_altura,0.2*display_ancho,50,verde,verde_oscuro, game_bucle)
+            boton("Salir",0.4*display_ancho,0.75*display_altura,0.2*display_ancho,50, rojo, rojo_oscuro, quit_juego) 
 
             #actualizar pantalla
             pygame.display.update()
@@ -174,7 +241,8 @@ def main():
     #pantalla de juego inicial
     def game_bucle():
 
-        global pausa 
+        global pausa
+        musicaPausa = 0
         #coordenadas iniciales del carro
         x = (display_ancho * 0.45)
         y = (display_altura * 0.8)
@@ -182,15 +250,15 @@ def main():
         x_cambio = 0
         y_cambio = 0
 
-        pygame.key.set_repeat(10,10)
-        
+        #pygame.key.set_repeat(10,10)
+        tocarMusica("musica.mp3", -1)
         #coordinadas de obstaculos
         obs_startX= random.randrange(0,display_ancho)
         obs_startY= -500
         #modificar la velocidad de obstaculos para aumentar la dificultad
-        obs_speed= 10
-        obs_ancho= 100
-        obs_altura = 100
+        obs_speed= 6
+        obs_ancho= car_ancho
+        obs_altura = car_altura
 
         #el usuario no podra pausar mientras que este en movimiento
         estado_mov = False
@@ -225,7 +293,15 @@ def main():
                         if estado_mov == False:
                             pausa = True
                             pausado()
-                        
+                    if event.key == pygame.K_m:
+                        if estado_mov == False:
+                            if musicaPausa == 0:
+                                pausarMusica()
+                                musicaPausa = 1
+                            elif musicaPausa == 1:
+                                resumirMusica()
+                                musicaPausa = 0
+
                 #keyup = se deja de presionar tecla
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
@@ -245,8 +321,10 @@ def main():
             obs_esquivados(esquivado)
 
             #verifica si el carro se choca con los bordes
-            if x > display_ancho - car_ancho or x < 0: 
-                crash()
+            if x > display_ancho - car_ancho or x < 0:
+                pararMusica()
+                tocarMusica("crash.mp3", 0)
+                crash(esquivado)
             if y > display_altura - car_altura:
                 y=display_altura - car_altura
             elif y < 0:
@@ -271,7 +349,9 @@ def main():
                 #MAS la esquina derecha del carro es menor que la esquina derecha del obstaculo
                 if x + car_ancho > obs_startX and x < obs_startX + obs_ancho:
                 #if x > obs_startX and x < obs_startX + obs_ancho or x+car_ancho > obs_startX and x+car_ancho < obs_startX+obs_ancho:
-                    crash()
+                    pararMusica()
+                    tocarMusica("crash.mp3", 0)
+                    crash(esquivado)
             #actualizar el display
             pygame.display.update()
             clock.tick(60)

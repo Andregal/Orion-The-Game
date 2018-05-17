@@ -19,7 +19,7 @@ def crearNombre(screen):
 
     while incompleto:
         for event in pygame.event.get():
-            if event.type == KEYDOWN:
+            if event.type == pygame.KEYDOWN:
                 if event.unicode.isalpha():
                     nombre += event.unicode
                 elif event.key == K_RETURN:
@@ -34,7 +34,7 @@ def main():
     screen = pygame.display.set_mode((800,600))
 
     pygame.mixer.init()
-    pygame.mixer.music.set_volume(0.5)
+    pygame.mixer.music.set_volume(1)
     pygame.mixer.music.load("musica.mp3")
     pygame.mixer.music.play(-1)
 
