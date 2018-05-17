@@ -59,21 +59,28 @@ def main():
     def crash(puntaje):
         while True:
             for event in pygame.event.get():
+                #print(event)
                 if event.type == pygame.QUIT:
                     quit_juego()
 
             #se puede omitir la funcion fill para ver el estado del juego pausado   
-            gameDisplay.fill(blanco)
-            textoFuente = pygame.font.Font("freesansbold.ttf", 50)
-            textSuperficie, textRect = objetos_texto("Te chocaste!", textoFuente)
-            textRect.center = ((display_ancho/2), (0.3*display_altura))
-            gameDisplay.blit(textSuperficie, textRect)
+            #gameDisplay.fill(blanco)
+            fondo = pygame.image.load("images/crash.png")
+            fondo = pygame.transform.scale(fondo, (display_ancho, display_altura))
+            gameDisplay.blit(fondo, (0,0))
+##            textoFuente = pygame.font.Font("freesansbold.ttf", 50)
+##            textSuperficie, textRect = objetos_texto("Te chocaste!", textoFuente)
+##            textRect.center = ((display_ancho/2), (0.3*display_altura))
+##            gameDisplay.blit(textSuperficie, textRect)
+##
+##            textoFuente = pygame.font.Font("freesansbold.ttf", 50)
+##            textSuperficie, textRect = objetos_texto("Tu puntaje: " + str(puntaje), textoFuente)
+##            textRect.center = ((display_ancho/2), (0.5*display_altura))
+##            gameDisplay.blit(textSuperficie, textRect)
 
-            textoFuente = pygame.font.Font("freesansbold.ttf", 50)
-            textSuperficie, textRect = objetos_texto("Tu puntaje: " + str(puntaje), textoFuente)
-            textRect.center = ((display_ancho/2), (0.5*display_altura))
-            gameDisplay.blit(textSuperficie, textRect)
-            
+
+            boton("Te chocaste!",0.4*display_ancho,0.3*display_altura,0.2*display_ancho,65,blanco,blanco, None)
+            boton("Tu puntaje: " + str(puntaje),0.4*display_ancho,0.5*display_altura,0.2*display_ancho,65,blanco,blanco, None)
             boton("Nueva Partida",0.1875*display_ancho,0.6*display_altura,0.1875*display_ancho,65,verde,verde_oscuro, game_bucle)
             boton("Salir",0.625*display_ancho,0.6*display_altura,0.1875*display_ancho,65, rojo, rojo_oscuro, quit_juego)        
 
@@ -132,6 +139,9 @@ def main():
     def continuar():
         global pausa
         pausa = False
+
+    def loadify(img):
+        return pygame.image.load(img).convert_alpha()
 
     #dj de canciones
 
@@ -251,12 +261,12 @@ def main():
         y_cambio = 0
 
         #pygame.key.set_repeat(10,10)
-        tocarMusica("musica.mp3", -1)
+        tocarMusica("music/musica.mp3", -1)
         #coordinadas de obstaculos
         obs_startX= random.randrange(0,display_ancho)
         obs_startY= -500
         #modificar la velocidad de obstaculos para aumentar la dificultad
-        obs_speed= 6
+        obs_speed= 20
         obs_ancho= car_ancho
         obs_altura = car_altura
 
@@ -278,16 +288,16 @@ def main():
                 #keydown = tecla presionada
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_LEFT:
-                        x_cambio = -10
+                        x_cambio = -30
                         estado_mov = True
                     if event.key == pygame.K_RIGHT:
-                        x_cambio = 10
+                        x_cambio = 30
                         estado_mov = True
                     if event.key == pygame.K_UP:
-                        y_cambio = -10
+                        y_cambio = -30
                         estado_mov = True
                     if event.key == pygame.K_DOWN:
-                        y_cambio = 10
+                        y_cambio = 30
                         estado_mov = True
                     if event.key == pygame.K_p:
                         if estado_mov == False:
@@ -312,7 +322,10 @@ def main():
                         estado_mov = False
             x += x_cambio
             y += y_cambio
-            gameDisplay.fill(blanco)
+            #gameDisplay.fill(blanco)
+            fondo = pygame.image.load("images/pista.jpg")
+            fondo = pygame.transform.scale(fondo, (display_ancho, display_altura))
+            gameDisplay.blit(fondo, (0,0))
             #actualizar las coordinadas del carro y del obstaculo
             obstaculo(obs_startX, obs_startY, obs_ancho, obs_altura, azul)
             #simula velocidad del obstaculo, se mueve en el eje Y
@@ -323,7 +336,7 @@ def main():
             #verifica si el carro se choca con los bordes
             if x > display_ancho - car_ancho or x < 0:
                 pararMusica()
-                tocarMusica("crash.mp3", 0)
+                tocarMusica("music/crash.mp3", 0)
                 crash(esquivado)
             if y > display_altura - car_altura:
                 y=display_altura - car_altura
@@ -335,7 +348,7 @@ def main():
                 obs_startY = 0 - obs_altura
                 obs_startX = random.randrange(0 + obs_ancho, display_ancho-obs_ancho)
                 esquivado = esquivado + 1
-                obs_speed = obs_speed + 0.3
+                obs_speed = obs_speed + 2
                 
             #logica de crash:
             #Y de carro es menor que la altura del obstaculo MAS la coordenada
@@ -350,7 +363,7 @@ def main():
                 if x + car_ancho > obs_startX and x < obs_startX + obs_ancho:
                 #if x > obs_startX and x < obs_startX + obs_ancho or x+car_ancho > obs_startX and x+car_ancho < obs_startX+obs_ancho:
                     pararMusica()
-                    tocarMusica("crash.mp3", 0)
+                    tocarMusica("music/crash.mp3", 0)
                     crash(esquivado)
             #actualizar el display
             pygame.display.update()
