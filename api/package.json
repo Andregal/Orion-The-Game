@@ -1,0 +1,11 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "API REST Orion The Game",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.16.3",
+    "sequelize": "^4.38.0",
+    "sqlite3": "^4.0.1"
+  }
+}
