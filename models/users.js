@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 
 var sequelize = new Sequelize(null, null, null, {
     dialect: "sqlite",
-    storage: './db.sqlite',
+    storage: './oriondb.sqlite',
     operatorsAliases: false,
     logging: false,
     define: {
