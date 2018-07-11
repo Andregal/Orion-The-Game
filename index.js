@@ -16,7 +16,7 @@ app.use("/usuario", users);
 app.use("/ranking", ranking);
 
 //Index
-app.get("/apidoc", function (req, res) {
+app.get("/", function (req, res) {
     res.send("Orion The Game");
 });
 //Documentacion API
