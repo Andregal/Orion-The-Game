@@ -18,7 +18,7 @@ app.use("/ranking", ranking);
 
 //Index
 app.get("/", function (req, res) {
-    res.send("Orion The Game");
+    res.send("<h1>Orion The Game</h1>");
 });
 
 //Documentacion API
