@@ -16,7 +16,7 @@ app.use(express.urlencoded({
 app.use("/usuario", users);
 app.use("/ranking", ranking);
 
-//Index
+//Pagina principal
 app.get("/", function (req, res) {
     res.send("<h1>Orion The Game</h1>");
 });
