@@ -15,6 +15,10 @@ app.use(express.urlencoded({
 app.use("/usuario", users);
 app.use("/ranking", ranking);
 
+//Index
+app.get("/apidoc", function (req, res) {
+    res.send("Orion The Game");
+});
 //Documentacion API
 app.get("/apidoc", function (req, res) {
     res.sendFile(__dirname + "/apidoc.html");
