@@ -2,7 +2,7 @@
 const express = require("express"); //Express: Framework web (Similar a Django)
 const users = require("./routes/users.js"); //Acceso a las rutas /usuario
 const ranking = require("./routes/ranking.js"); //Acceso a las rutas /ranking
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 8080
 
 //Configuracion
 const app = express();
@@ -27,4 +27,4 @@ app.get("/apidoc", function (req, res) {
 });
 
 //Puerto del servidor
-app.listen(PORT, () => console.log(`Listening on ${ PORT }`));
+app.listen(PORT);
