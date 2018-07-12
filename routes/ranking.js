@@ -5,7 +5,7 @@ router.get("/mostrar", function (req, res) {
     var ranking = new Ranking();
     ranking.read().then(function (result) {
         res.send(result)
-    })
+    });
 });
 
 router.get("/mostrar/:puesto", function (req, res) {
