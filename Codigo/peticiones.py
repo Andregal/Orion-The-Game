@@ -26,7 +26,7 @@ def convertirJSON(objeto):
 
 
 def validarExistencia(username):
-    conn = http.client.HTTPConnection('localhost:8080')
+    conn = http.client.HTTPConnection("hidden-atoll-65961.herokuapp.com")
     conn.request("GET", "/usuario/validarExistencia/" + username)
     response = convertirJSON(conn.getresponse().read())
     conn.close()
@@ -44,7 +44,7 @@ def crearUsuario(username, password):
             "username": username, 
             "password": password
         }
-        conn = http.client.HTTPConnection('localhost:8080')
+        conn = http.client.HTTPConnection("hidden-atoll-65961.herokuapp.com")
         conn.request("POST", "/usuario/crear", body=json.dumps(usuario), headers={
             "Content-Type": "application/json"
         })
@@ -64,7 +64,7 @@ def validarContrasena(username, password):
         "username": username, 
         "password": password
     }
-    conn = http.client.HTTPConnection('localhost:8080')
+    conn = http.client.HTTPConnection("hidden-atoll-65961.herokuapp.com")
     conn.request("POST", "/usuario/validarContrasena", body=json.dumps(usuario), headers={
         "Content-Type": "application/json"
     })
@@ -83,7 +83,7 @@ def actualizarContrasena(username, password):
         "username": username, 
         "password": password
     }
-    conn = http.client.HTTPConnection('localhost:8080')
+    conn = http.client.HTTPConnection("hidden-atoll-65961.herokuapp.com")
     conn.request("PUT", "/usuario/actualizarContrasena", body=json.dumps(usuario), headers={
         "Content-Type": "application/json"}
     )
@@ -97,7 +97,7 @@ def actualizarContrasena(username, password):
 
 
 def obtenerScore(username):
-    conn = http.client.HTTPConnection('localhost:8080')
+    conn = http.client.HTTPConnection("hidden-atoll-65961.herokuapp.com")
     conn.request("GET", "/usuario/obtenerScore/" + username)
     response = convertirJSON(conn.getresponse().read())
     conn.close()
@@ -115,7 +115,7 @@ def actualizarScore(username, score):
             "username": username, 
             "score": score
         }
-        conn = http.client.HTTPConnection('localhost:8080')
+        conn = http.client.HTTPConnection("hidden-atoll-65961.herokuapp.com")
         conn.request("PUT", "/usuario/actualizarScore", body=json.dumps(usuario), headers={
             "Content-Type": "application/json"
         })
@@ -129,7 +129,7 @@ def actualizarScore(username, score):
 
 
 def mostrarRanking():
-    conn = http.client.HTTPConnection('localhost:8080')
+    conn = http.client.HTTPConnection("hidden-atoll-65961.herokuapp.com")
     conn.request("GET", "/ranking/mostrar")
     response = convertirJSON(conn.getresponse().read())
     conn.close()
@@ -142,7 +142,7 @@ def mostrarRanking():
 
 
 def mostrarUsuarioSegunPuesto(puesto):
-    conn = http.client.HTTPConnection('localhost:8080')
+    conn = http.client.HTTPConnection("hidden-atoll-65961.herokuapp.com")
     conn.request("GET", "/ranking/mostrar/" + str(puesto))
     response = convertirJSON(conn.getresponse().read())
     conn.close()
@@ -155,7 +155,7 @@ def mostrarUsuarioSegunPuesto(puesto):
 
 
 def mostrarPosUsuario(username):
-    conn = http.client.HTTPConnection('localhost:8080')
+    conn = http.client.HTTPConnection("hidden-atoll-65961.herokuapp.com")
     conn.request("GET", "/ranking/posicion/" + username)
     response = convertirJSON(conn.getresponse().read())
     conn.close()
@@ -165,7 +165,6 @@ def mostrarPosUsuario(username):
     # Respuesta: 5
 
 #Prender servidor
-call("node C:\\Users\\netcomm\\AppData\\Local\\Programs\\Python\\Python36\\Codigo\\api\\index.js")
 
 ##print(mostrarRanking())	
 ##print(validarExistencia("cesar"))

@@ -6,6 +6,7 @@ import singletonpausa
 import singletonsesion
 import supportfunciones
 import textcreator
+import peticiones
 
 import crashscreen
 import pausescreen
@@ -24,10 +25,14 @@ pygame.display.set_caption("Orion: The Game")
 dManager = supportfunciones.displayManager(gameDisplay)
 #reloj del juego, usado para fps
 clock = pygame.time.Clock()
-    
+#punt = str(peticiones.convertirJSON(singletonsesion.datosSesion.get_instance().score))
+#user = peticiones.convertirJSON(singletonsesion.datosSesion.get_instance().nombreUsuario)
+
 
 #algoritmo de choque
 def crash(puntaje):
+
+    #peticiones.actualizarScore(user, punt)
     #print("Si llega a esta pantalla")
     sesion = singletonsesion.datosSesion.get_instance()
     while True:
@@ -52,6 +57,7 @@ def crash(puntaje):
         dManager.boton("Te chocaste!", params1, None, None)
         dManager.boton(sesion.nombreUsuario, params6, None, None)
         dManager.boton("Tu puntaje: " + str(puntaje), params2, None, None)
+        #dManager.boton("Tu puesto en el Ranking: " + str(peticiones.mostrarPosUsuario(user)), params2, None, None)
         dManager.boton("Nueva Partida", params3, None, gamescreen.game_bucle)
         dManager.boton("Regresar al menu", params5, None, oriongame.game_intro)
         dManager.boton("Salir", params4, None, supportfunciones.quit_juego)        

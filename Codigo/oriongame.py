@@ -12,6 +12,7 @@ import pausescreen
 import gamescreen
 import guidescreen
 import rankingscreen
+import easyconfscreen
 
 pygame.init()
 
@@ -60,7 +61,10 @@ def game_intro():
         gameDisplay.blit(orion, (0.375*display_ancho,0.2*display_altura))
         config = pygame.image.load("images/config.png")
         config = pygame.transform.scale(config, (int(display_ancho/15), int(display_ancho/15)))
-        gameDisplay.blit(config, (0.009*display_ancho,0.9*display_altura))
+        gameDisplay.blit(config, (0.93*display_ancho,0.7*display_altura))
+        ayuda = pygame.image.load("images/ayuda.png")
+        ayuda = pygame.transform.scale(ayuda, (int(display_ancho/15), int(display_ancho/15)))
+        gameDisplay.blit(ayuda, (0.93*display_ancho,0.8*display_altura))
         rank = pygame.image.load("images/highscore.png")
         rank = pygame.transform.scale(rank, (int(display_ancho/15), int(display_ancho/15)))
         gameDisplay.blit(rank, (0.93*display_ancho,0.9*display_altura))
@@ -68,14 +72,16 @@ def game_intro():
         mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
         
-        if (0.009*display_ancho+display_ancho/15) > mouse[0] and 0.009*display_ancho < mouse[0] and (0.9*display_altura+display_ancho/15) > mouse[1] and 0.9*display_altura < mouse[1]:
+        if (0.93*display_ancho+display_ancho/15) > mouse[0] and 0.93*display_ancho < mouse[0] and (0.8*display_altura+display_ancho/15) > mouse[1] and 0.8*display_altura < mouse[1]:
             if click[0] == 1:
                 guidescreen.game_guia()
-                #rankingscreen.game_guia()
         if (0.93*display_ancho+display_ancho/15) > mouse[0] and 0.93*display_ancho < mouse[0] and (0.9*display_altura+display_ancho/15) > mouse[1] and 0.9*display_altura < mouse[1]:
             if click[0] == 1:
                 rankingscreen.game_guia()
-
+        if (0.93*display_ancho+display_ancho/15) > mouse[0] and 0.93*display_ancho < mouse[0] and (0.7*display_altura+display_ancho/15) > mouse[1] and 0.7*display_altura < mouse[1]:
+            if click[0] == 1:
+                easyconfscreen.game_configuration()
+        
         textoFuente = pygame.font.Font("freesansbold.ttf", 50)
         textSuperficie, textRect = textcreator.objetos_texto("Orion: The Game", textoFuente)
         textRect.center = ((display_ancho/2), (display_altura/2))
@@ -90,7 +96,7 @@ def game_intro():
         params3 = supportfunciones.paramBotones(0.4*display_ancho,0.65*display_altura,0.2*display_ancho,50,color.verde,color.verde_oscuro)
         params4 = supportfunciones.paramBotones(0.4*display_ancho,0.75*display_altura,0.2*display_ancho,50,color.rojo,color.rojo_oscuro)
         dManager.boton("Ingresar jugador",params1, None, None)
-        if userExiste == True:
+        if userExiste == True:            
             dManager.boton(sesion.nombreUsuario,params2, None, None)
         bdquery1 = ["validarUser", sesion.nombreUsuario]
         dManager.boton("Iniciar",params3, None,gamescreen.game_bucle)
