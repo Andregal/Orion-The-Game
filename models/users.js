@@ -27,7 +27,7 @@ class Users {
                 username: user.username,
                 password: user.password
             });
-        })
+        });
     }
 
     read(username, attributes) {
