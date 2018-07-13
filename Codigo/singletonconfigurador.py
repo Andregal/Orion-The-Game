@@ -18,16 +18,16 @@ class stateConfigure:
     huecos = [2, 15, 1]
     baterias = [1, 10, 1]
 
-    ezEnemyCantidad = 0
-    ezEnemyVelocidad = 0
-    ezEnemyTamanho = 0
-    ezHuecoCantidad = 0
-    ezHuecoVelocidad = 0
-    ezHuecoTamanho = 0
-    ezPilaCantidad = 0
-    ezPilaVelocidad = 0
-    ezPilaTamanho = 0
-    ezPuntaje = 0
+    ezEnemyCantidad = "0"
+    ezEnemyVelocidad = "0"
+    ezEnemyTamanho = "0"
+    ezHuecoCantidad = "0"
+    ezHuecoVelocidad = "0"
+    ezHuecoTamanho = "0"
+    ezPilaCantidad = "0"
+    ezPilaVelocidad = "0"
+    ezPilaTamanho = "0"
+    ezPuntaje = "0"
 
     listEz = []
     listEz.append(ezEnemyCantidad)
@@ -99,7 +99,7 @@ class stateConfigure:
     intermedio.append(enemigos)
     intermedio.append(huecos)
     intermedio.append(baterias)
-    intermedio.append(20)    
+    intermedio.append(15)    
 
     dificil = []
     dificil.append(enemigos)
@@ -111,6 +111,16 @@ class stateConfigure:
     configurador['facil'] = facil
     configurador['intermedio'] = intermedio
     configurador['dificil'] = dificil
+
+    
+##    configurador["dificil"][0][0] = 5
+##    configurador["intermedio"][0][0] = 3
+##
+##    configurador["dificil"][0][1] = 25
+##    configurador["intermedio"][0][1] = 15
+
+    
+
     
     @classmethod
     def get_instance(cls):

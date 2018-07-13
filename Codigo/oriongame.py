@@ -87,7 +87,7 @@ def game_intro():
         textRect.center = ((display_ancho/2), (display_altura/2))
         gameDisplay.blit(textSuperficie, textRect)
         #Logica para ingresar usuario:
-        #Va a existir un boton que indique que "ingrese su usuario"
+       #Va a existir un boton que indique que "ingrese su usuario"
         #Cuando el usuario presione el boton izquierdo del mouse se crea un boton que se va a llenar con el nombre de usuario
         #Para que el usuario no tenga que dejar presionado el mouse, creamos una variable para ver si ya presiono
         #anteriormente el mouse

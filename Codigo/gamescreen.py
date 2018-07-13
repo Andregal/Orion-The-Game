@@ -264,4 +264,4 @@ def game_bucle():
                         obstaculo.x = display_ancho+random.randrange(500,2000)
         #actualizar el display
         pygame.display.update()
-        clock.tick(60)
+        clock.tick(120)
