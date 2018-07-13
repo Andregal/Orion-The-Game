@@ -6,3 +6,5 @@ Para ingresa a la pagina principal del servidor, de click [aquí](https://hidden
 Las dos rutas que existen son: /usuario y /ranking.
 
 Ejemplo: Si se desea obtener el ranking de los 10 mejores jugadores --> [/ranking/mostrar](https://hidden-atoll-65961.herokuapp.com/ranking/mostrar).
+
+Para las pruebas unitarias, se utilizo la libreria [Jest](https://jestjs.io/).
